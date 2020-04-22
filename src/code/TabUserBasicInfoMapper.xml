@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.sqlserver.TabUserBasicInfoMapper">
+	<resultMap type="com.entity.TabUserBasicInfo" id="TabUserBasicInfoResult">
+       	<result column="USER_ID" property="userId"/>
+       	<result column="NICK_NAME" property="nickName"/>
+       	<result column="PASSWORD" property="password"/>
+       	<result column="WX_HEAD_PICTURE_URL" property="wxHeadPictureUrl"/>
+       	<result column="WX_OPEN_ID" property="wxOpenId"/>
+       	<result column="WX_SMALL_PROGRAM_OPEN_ID" property="wxSmallProgramOpenId"/>
+       	<result column="WX_UNION_ID" property="wxUnionId"/>
+       	<result column="WX_CM_OPEN_ID" property="wxCmOpenId"/>
+       	<result column="MOBILE_PHONE" property="mobilePhone"/>
+       	<result column="BALANCE" property="balance"/>
+       	<result column="SEX" property="sex"/>
+       	<result column="STATE" property="state"/>
+       	<result column="USER_TYPE" property="userType"/>
+       	<result column="IS_PRESTORE" property="isPrestore"/>
+       	<result column="REMARK" property="remark"/>
+       	<result column="CREATE_USER_ID" property="createUserId"/>
+       	<result column="CREATE_TIME" property="createTime"/>
+       	<result column="LAST_TIME" property="lastTime"/>
+       	<result column="CELL_ID" property="cellId"/>
+       	<result column="SALT" property="salt"/>
+       	<result column="EXT_INFO" property="extInfo"/>
+       	<result column="EXT_ATTRIBUTE" property="extAttribute"/>
+       	<result column="CREATE_ACCOUNT" property="createAccount"/>
+		
+	</resultMap>
+	
+	<select id="getById" resultMap="TabUserBasicInfoResult">
+		select 
+			*
+		from
+			TAB_USER_BASIC_INFO
+		where
+			ID = #{id}
+	</select>
+	
+	<sql id="whereConditions">
+	    <if test='queryMap.q_userId != null and queryMap.q_userId != ""'>and USER_ID = #{queryMap.q_userId}</if>
+	    <if test='queryMap.q_nickName != null and queryMap.q_nickName != ""'>and NICK_NAME = #{queryMap.q_nickName}</if>
+	    <if test='queryMap.q_password != null and queryMap.q_password != ""'>and PASSWORD = #{queryMap.q_password}</if>
+	    <if test='queryMap.q_wxHeadPictureUrl != null and queryMap.q_wxHeadPictureUrl != ""'>and WX_HEAD_PICTURE_URL = #{queryMap.q_wxHeadPictureUrl}</if>
+	    <if test='queryMap.q_wxOpenId != null and queryMap.q_wxOpenId != ""'>and WX_OPEN_ID = #{queryMap.q_wxOpenId}</if>
+	    <if test='queryMap.q_wxSmallProgramOpenId != null and queryMap.q_wxSmallProgramOpenId != ""'>and WX_SMALL_PROGRAM_OPEN_ID = #{queryMap.q_wxSmallProgramOpenId}</if>
+	    <if test='queryMap.q_wxUnionId != null and queryMap.q_wxUnionId != ""'>and WX_UNION_ID = #{queryMap.q_wxUnionId}</if>
+	    <if test='queryMap.q_wxCmOpenId != null and queryMap.q_wxCmOpenId != ""'>and WX_CM_OPEN_ID = #{queryMap.q_wxCmOpenId}</if>
+	    <if test='queryMap.q_mobilePhone != null and queryMap.q_mobilePhone != ""'>and MOBILE_PHONE = #{queryMap.q_mobilePhone}</if>
+	    <if test='queryMap.q_balance != null and queryMap.q_balance != ""'>and BALANCE = #{queryMap.q_balance}</if>
+	    <if test='queryMap.q_sex != null and queryMap.q_sex != ""'>and SEX = #{queryMap.q_sex}</if>
+	    <if test='queryMap.q_state != null and queryMap.q_state != ""'>and STATE = #{queryMap.q_state}</if>
+	    <if test='queryMap.q_userType != null and queryMap.q_userType != ""'>and USER_TYPE = #{queryMap.q_userType}</if>
+	    <if test='queryMap.q_isPrestore != null and queryMap.q_isPrestore != ""'>and IS_PRESTORE = #{queryMap.q_isPrestore}</if>
+	    <if test='queryMap.q_remark != null and queryMap.q_remark != ""'>and REMARK = #{queryMap.q_remark}</if>
+	    <if test='queryMap.q_createUserId != null and queryMap.q_createUserId != ""'>and CREATE_USER_ID = #{queryMap.q_createUserId}</if>
+	    <if test='queryMap.q_createTime != null and queryMap.q_createTime != ""'>and CREATE_TIME = #{queryMap.q_createTime}</if>
+	    <if test='queryMap.q_lastTime != null and queryMap.q_lastTime != ""'>and LAST_TIME = #{queryMap.q_lastTime}</if>
+	    <if test='queryMap.q_cellId != null and queryMap.q_cellId != ""'>and CELL_ID = #{queryMap.q_cellId}</if>
+	    <if test='queryMap.q_salt != null and queryMap.q_salt != ""'>and SALT = #{queryMap.q_salt}</if>
+	    <if test='queryMap.q_extInfo != null and queryMap.q_extInfo != ""'>and EXT_INFO = #{queryMap.q_extInfo}</if>
+	    <if test='queryMap.q_extAttribute != null and queryMap.q_extAttribute != ""'>and EXT_ATTRIBUTE = #{queryMap.q_extAttribute}</if>
+	    <if test='queryMap.q_createAccount != null and queryMap.q_createAccount != ""'>and CREATE_ACCOUNT = #{queryMap.q_createAccount}</if>
+	</sql>
+	
+	<select id="queryMap" resultMap="TabUserBasicInfoResult">
+		SELECT 
+			* 
+		FROM (
+			SELECT 
+				ROW_NUMBER() OVER (order by T.id) AS Row,
+				T.*  
+			from 
+				TAB_USER_BASIC_INFO T
+			where
+				1=1
+			<include refid="whereConditions" />
+		) TT 
+		WHERE 
+			TT.Row between #{start} and #{end}
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			TAB_USER_BASIC_INFO
+		where
+		1=1
+		<include refid="whereConditions" />
+	</select>
+	
+	<insert id="add" parameterType="com.entity.TabUserBasicInfo" keyProperty="id" keyColumn="ID" useGeneratedKeys="true">
+		insert into TAB_USER_BASIC_INFO
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	USER_ID,
+        	NICK_NAME,
+        	PASSWORD,
+        	WX_HEAD_PICTURE_URL,
+        	WX_OPEN_ID,
+        	WX_SMALL_PROGRAM_OPEN_ID,
+        	WX_UNION_ID,
+        	WX_CM_OPEN_ID,
+        	MOBILE_PHONE,
+        	BALANCE,
+        	SEX,
+        	STATE,
+        	USER_TYPE,
+        	IS_PRESTORE,
+        	REMARK,
+        	CREATE_USER_ID,
+        	CREATE_TIME,
+        	LAST_TIME,
+        	CELL_ID,
+        	SALT,
+        	EXT_INFO,
+        	EXT_ATTRIBUTE,
+        	CREATE_ACCOUNT,
+		</trim>
+		values
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	#{userId},
+        	#{nickName},
+        	#{password},
+        	#{wxHeadPictureUrl},
+        	#{wxOpenId},
+        	#{wxSmallProgramOpenId},
+        	#{wxUnionId},
+        	#{wxCmOpenId},
+        	#{mobilePhone},
+        	#{balance},
+        	#{sex},
+        	#{state},
+        	#{userType},
+        	#{isPrestore},
+        	#{remark},
+        	#{createUserId},
+        	#{createTime},
+        	#{lastTime},
+        	#{cellId},
+        	#{salt},
+        	#{extInfo},
+        	#{extAttribute},
+        	#{createAccount},
+		</trim>
+	</insert> 
+	
+	<update id="edit" parameterType="com.entity.TabUserBasicInfo">
+		update TAB_USER_BASIC_INFO
+		<trim prefix="set" suffixOverrides=",">
+        	<if test="userId !=null and userId != ''">USER_ID = #{userId},</if>
+        	<if test="nickName !=null and nickName != ''">NICK_NAME = #{nickName},</if>
+        	<if test="password !=null and password != ''">PASSWORD = #{password},</if>
+        	<if test="wxHeadPictureUrl !=null and wxHeadPictureUrl != ''">WX_HEAD_PICTURE_URL = #{wxHeadPictureUrl},</if>
+        	<if test="wxOpenId !=null and wxOpenId != ''">WX_OPEN_ID = #{wxOpenId},</if>
+        	<if test="wxSmallProgramOpenId !=null and wxSmallProgramOpenId != ''">WX_SMALL_PROGRAM_OPEN_ID = #{wxSmallProgramOpenId},</if>
+        	<if test="wxUnionId !=null and wxUnionId != ''">WX_UNION_ID = #{wxUnionId},</if>
+        	<if test="wxCmOpenId !=null and wxCmOpenId != ''">WX_CM_OPEN_ID = #{wxCmOpenId},</if>
+        	<if test="mobilePhone !=null and mobilePhone != ''">MOBILE_PHONE = #{mobilePhone},</if>
+        	<if test="balance !=null and balance != ''">BALANCE = #{balance},</if>
+        	<if test="sex !=null and sex != ''">SEX = #{sex},</if>
+        	<if test="state !=null and state != ''">STATE = #{state},</if>
+        	<if test="userType !=null and userType != ''">USER_TYPE = #{userType},</if>
+        	<if test="isPrestore !=null and isPrestore != ''">IS_PRESTORE = #{isPrestore},</if>
+        	<if test="remark !=null and remark != ''">REMARK = #{remark},</if>
+        	<if test="createUserId !=null and createUserId != ''">CREATE_USER_ID = #{createUserId},</if>
+        	<if test="createTime !=null and createTime != ''">CREATE_TIME = #{createTime},</if>
+        	<if test="lastTime !=null and lastTime != ''">LAST_TIME = #{lastTime},</if>
+        	<if test="cellId !=null and cellId != ''">CELL_ID = #{cellId},</if>
+        	<if test="salt !=null and salt != ''">SALT = #{salt},</if>
+        	<if test="extInfo !=null and extInfo != ''">EXT_INFO = #{extInfo},</if>
+        	<if test="extAttribute !=null and extAttribute != ''">EXT_ATTRIBUTE = #{extAttribute},</if>
+        	<if test="createAccount !=null and createAccount != ''">CREATE_ACCOUNT = #{createAccount},</if>
+		</trim>
+		where
+			ID = #{id}
+	</update>
+</mapper>

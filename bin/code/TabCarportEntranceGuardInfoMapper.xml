@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.sqlserver.TabCarportEntranceGuardInfoMapper">
+	<resultMap type="com.entity.TabCarportEntranceGuardInfo" id="TabCarportEntranceGuardInfoResult">
+       	<result column="ID" property="id"/>
+       	<result column="ENTRANCE_GUARD_ID" property="entranceGuardId"/>
+       	<result column="DEVICE_SN" property="deviceSn"/>
+       	<result column="CARPORT_ID" property="carportId"/>
+       	<result column="CONTROL_HOST_ID" property="controlHostId"/>
+       	<result column="ENTRANCE_GUARD_NAME" property="entranceGuardName"/>
+       	<result column="IPADDRESS" property="ipaddress"/>
+       	<result column="PORT" property="port"/>
+       	<result column="STATUS" property="status"/>
+       	<result column="CROSSING" property="crossing"/>
+       	<result column="THUMBNAIL_URL" property="thumbnailUrl"/>
+       	<result column="GPS_LNG" property="gpsLng"/>
+       	<result column="GPS_LAT" property="gpsLat"/>
+       	<result column="LOCATION" property="location"/>
+       	<result column="DIRECT" property="direct"/>
+       	<result column="CREATE_TIME" property="createTime"/>
+       	<result column="REMARK" property="remark"/>
+		
+	</resultMap>
+	
+	<select id="getById" resultMap="TabCarportEntranceGuardInfoResult">
+		select 
+			*
+		from
+			TAB_CARPORT_ENTRANCE_GUARD_INFO
+		where
+			ID = #{id}
+	</select>
+	
+	<sql id="whereConditions">
+	    <if test='queryMap.q_id != null and queryMap.q_id != ""'>and ID = #{queryMap.q_id}</if>
+	    <if test='queryMap.q_entranceGuardId != null and queryMap.q_entranceGuardId != ""'>and ENTRANCE_GUARD_ID = #{queryMap.q_entranceGuardId}</if>
+	    <if test='queryMap.q_deviceSn != null and queryMap.q_deviceSn != ""'>and DEVICE_SN = #{queryMap.q_deviceSn}</if>
+	    <if test='queryMap.q_carportId != null and queryMap.q_carportId != ""'>and CARPORT_ID = #{queryMap.q_carportId}</if>
+	    <if test='queryMap.q_controlHostId != null and queryMap.q_controlHostId != ""'>and CONTROL_HOST_ID = #{queryMap.q_controlHostId}</if>
+	    <if test='queryMap.q_entranceGuardName != null and queryMap.q_entranceGuardName != ""'>and ENTRANCE_GUARD_NAME = #{queryMap.q_entranceGuardName}</if>
+	    <if test='queryMap.q_ipaddress != null and queryMap.q_ipaddress != ""'>and IPADDRESS = #{queryMap.q_ipaddress}</if>
+	    <if test='queryMap.q_port != null and queryMap.q_port != ""'>and PORT = #{queryMap.q_port}</if>
+	    <if test='queryMap.q_status != null and queryMap.q_status != ""'>and STATUS = #{queryMap.q_status}</if>
+	    <if test='queryMap.q_crossing != null and queryMap.q_crossing != ""'>and CROSSING = #{queryMap.q_crossing}</if>
+	    <if test='queryMap.q_thumbnailUrl != null and queryMap.q_thumbnailUrl != ""'>and THUMBNAIL_URL = #{queryMap.q_thumbnailUrl}</if>
+	    <if test='queryMap.q_gpsLng != null and queryMap.q_gpsLng != ""'>and GPS_LNG = #{queryMap.q_gpsLng}</if>
+	    <if test='queryMap.q_gpsLat != null and queryMap.q_gpsLat != ""'>and GPS_LAT = #{queryMap.q_gpsLat}</if>
+	    <if test='queryMap.q_location != null and queryMap.q_location != ""'>and LOCATION = #{queryMap.q_location}</if>
+	    <if test='queryMap.q_direct != null and queryMap.q_direct != ""'>and DIRECT = #{queryMap.q_direct}</if>
+	    <if test='queryMap.q_createTime != null and queryMap.q_createTime != ""'>and CREATE_TIME = #{queryMap.q_createTime}</if>
+	    <if test='queryMap.q_remark != null and queryMap.q_remark != ""'>and REMARK = #{queryMap.q_remark}</if>
+	</sql>
+	
+	<select id="queryMap" resultMap="TabCarportEntranceGuardInfoResult">
+		SELECT 
+			* 
+		FROM (
+			SELECT 
+				ROW_NUMBER() OVER (order by T.id) AS Row,
+				T.*  
+			from 
+				TAB_CARPORT_ENTRANCE_GUARD_INFO T
+			where
+				1=1
+			<include refid="whereConditions" />
+		) TT 
+		WHERE 
+			TT.Row between #{start} and #{end}
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			TAB_CARPORT_ENTRANCE_GUARD_INFO
+		where
+		1=1
+		<include refid="whereConditions" />
+	</select>
+	
+	<insert id="add" parameterType="com.entity.TabCarportEntranceGuardInfo" keyProperty="id" keyColumn="ID" useGeneratedKeys="true">
+		insert into TAB_CARPORT_ENTRANCE_GUARD_INFO
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	ID,
+        	ENTRANCE_GUARD_ID,
+        	DEVICE_SN,
+        	CARPORT_ID,
+        	CONTROL_HOST_ID,
+        	ENTRANCE_GUARD_NAME,
+        	IPADDRESS,
+        	PORT,
+        	STATUS,
+        	CROSSING,
+        	THUMBNAIL_URL,
+        	GPS_LNG,
+        	GPS_LAT,
+        	LOCATION,
+        	DIRECT,
+        	CREATE_TIME,
+        	REMARK,
+		</trim>
+		values
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	#{id},
+        	#{entranceGuardId},
+        	#{deviceSn},
+        	#{carportId},
+        	#{controlHostId},
+        	#{entranceGuardName},
+        	#{ipaddress},
+        	#{port},
+        	#{status},
+        	#{crossing},
+        	#{thumbnailUrl},
+        	#{gpsLng},
+        	#{gpsLat},
+        	#{location},
+        	#{direct},
+        	#{createTime},
+        	#{remark},
+		</trim>
+	</insert> 
+	
+	<update id="edit" parameterType="com.entity.TabCarportEntranceGuardInfo">
+		update TAB_CARPORT_ENTRANCE_GUARD_INFO
+		<trim prefix="set" suffixOverrides=",">
+        	<if test="id !=null and id != ''">ID = #{id},</if>
+        	<if test="entranceGuardId !=null and entranceGuardId != ''">ENTRANCE_GUARD_ID = #{entranceGuardId},</if>
+        	<if test="deviceSn !=null and deviceSn != ''">DEVICE_SN = #{deviceSn},</if>
+        	<if test="carportId !=null and carportId != ''">CARPORT_ID = #{carportId},</if>
+        	<if test="controlHostId !=null and controlHostId != ''">CONTROL_HOST_ID = #{controlHostId},</if>
+        	<if test="entranceGuardName !=null and entranceGuardName != ''">ENTRANCE_GUARD_NAME = #{entranceGuardName},</if>
+        	<if test="ipaddress !=null and ipaddress != ''">IPADDRESS = #{ipaddress},</if>
+        	<if test="port !=null and port != ''">PORT = #{port},</if>
+        	<if test="status !=null and status != ''">STATUS = #{status},</if>
+        	<if test="crossing !=null and crossing != ''">CROSSING = #{crossing},</if>
+        	<if test="thumbnailUrl !=null and thumbnailUrl != ''">THUMBNAIL_URL = #{thumbnailUrl},</if>
+        	<if test="gpsLng !=null and gpsLng != ''">GPS_LNG = #{gpsLng},</if>
+        	<if test="gpsLat !=null and gpsLat != ''">GPS_LAT = #{gpsLat},</if>
+        	<if test="location !=null and location != ''">LOCATION = #{location},</if>
+        	<if test="direct !=null and direct != ''">DIRECT = #{direct},</if>
+        	<if test="createTime !=null and createTime != ''">CREATE_TIME = #{createTime},</if>
+        	<if test="remark !=null and remark != ''">REMARK = #{remark},</if>
+		</trim>
+		where
+			ID = #{id}
+	</update>
+</mapper>

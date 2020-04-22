@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.sqlserver.TabCarportEntranceGuardCollectDeviceInfoMapper">
+	<resultMap type="com.entity.TabCarportEntranceGuardCollectDeviceInfo" id="TabCarportEntranceGuardCollectDeviceInfoResult">
+       	<result column="ID" property="id"/>
+       	<result column="CONTROL_HOST_ID" property="controlHostId"/>
+       	<result column="ENTRANCE_GUARD_ID" property="entranceGuardId"/>
+       	<result column="COLLECT_DEVICE_ID" property="collectDeviceId"/>
+       	<result column="COLLECT_DEVICE_NAME" property="collectDeviceName"/>
+       	<result column="TYPE" property="type"/>
+       	<result column="DIRECT" property="direct"/>
+       	<result column="DEVICE_SN" property="deviceSn"/>
+       	<result column="IPADDRESS" property="ipaddress"/>
+       	<result column="PORT" property="port"/>
+       	<result column="BAUD_RATE" property="baudRate"/>
+       	<result column="MAC" property="mac"/>
+       	<result column="EXT_PROPERTY" property="extProperty"/>
+       	<result column="FIRMWARE_VERSION" property="firmwareVersion"/>
+       	<result column="STATE" property="state"/>
+       	<result column="REMARK" property="remark"/>
+       	<result column="CREATE_TIME" property="createTime"/>
+		
+	</resultMap>
+	
+	<select id="getById" resultMap="TabCarportEntranceGuardCollectDeviceInfoResult">
+		select 
+			*
+		from
+			TAB_CARPORT_ENTRANCE_GUARD_COLLECT_DEVICE_INFO
+		where
+			ID = #{id}
+	</select>
+	
+	<sql id="whereConditions">
+	    <if test='queryMap.q_id != null and queryMap.q_id != ""'>and ID = #{queryMap.q_id}</if>
+	    <if test='queryMap.q_controlHostId != null and queryMap.q_controlHostId != ""'>and CONTROL_HOST_ID = #{queryMap.q_controlHostId}</if>
+	    <if test='queryMap.q_entranceGuardId != null and queryMap.q_entranceGuardId != ""'>and ENTRANCE_GUARD_ID = #{queryMap.q_entranceGuardId}</if>
+	    <if test='queryMap.q_collectDeviceId != null and queryMap.q_collectDeviceId != ""'>and COLLECT_DEVICE_ID = #{queryMap.q_collectDeviceId}</if>
+	    <if test='queryMap.q_collectDeviceName != null and queryMap.q_collectDeviceName != ""'>and COLLECT_DEVICE_NAME = #{queryMap.q_collectDeviceName}</if>
+	    <if test='queryMap.q_type != null and queryMap.q_type != ""'>and TYPE = #{queryMap.q_type}</if>
+	    <if test='queryMap.q_direct != null and queryMap.q_direct != ""'>and DIRECT = #{queryMap.q_direct}</if>
+	    <if test='queryMap.q_deviceSn != null and queryMap.q_deviceSn != ""'>and DEVICE_SN = #{queryMap.q_deviceSn}</if>
+	    <if test='queryMap.q_ipaddress != null and queryMap.q_ipaddress != ""'>and IPADDRESS = #{queryMap.q_ipaddress}</if>
+	    <if test='queryMap.q_port != null and queryMap.q_port != ""'>and PORT = #{queryMap.q_port}</if>
+	    <if test='queryMap.q_baudRate != null and queryMap.q_baudRate != ""'>and BAUD_RATE = #{queryMap.q_baudRate}</if>
+	    <if test='queryMap.q_mac != null and queryMap.q_mac != ""'>and MAC = #{queryMap.q_mac}</if>
+	    <if test='queryMap.q_extProperty != null and queryMap.q_extProperty != ""'>and EXT_PROPERTY = #{queryMap.q_extProperty}</if>
+	    <if test='queryMap.q_firmwareVersion != null and queryMap.q_firmwareVersion != ""'>and FIRMWARE_VERSION = #{queryMap.q_firmwareVersion}</if>
+	    <if test='queryMap.q_state != null and queryMap.q_state != ""'>and STATE = #{queryMap.q_state}</if>
+	    <if test='queryMap.q_remark != null and queryMap.q_remark != ""'>and REMARK = #{queryMap.q_remark}</if>
+	    <if test='queryMap.q_createTime != null and queryMap.q_createTime != ""'>and CREATE_TIME = #{queryMap.q_createTime}</if>
+	</sql>
+	
+	<select id="queryMap" resultMap="TabCarportEntranceGuardCollectDeviceInfoResult">
+		SELECT 
+			* 
+		FROM (
+			SELECT 
+				ROW_NUMBER() OVER (order by T.id) AS Row,
+				T.*  
+			from 
+				TAB_CARPORT_ENTRANCE_GUARD_COLLECT_DEVICE_INFO T
+			where
+				1=1
+			<include refid="whereConditions" />
+		) TT 
+		WHERE 
+			TT.Row between #{start} and #{end}
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			TAB_CARPORT_ENTRANCE_GUARD_COLLECT_DEVICE_INFO
+		where
+		1=1
+		<include refid="whereConditions" />
+	</select>
+	
+	<insert id="add" parameterType="com.entity.TabCarportEntranceGuardCollectDeviceInfo" keyProperty="id" keyColumn="ID" useGeneratedKeys="true">
+		insert into TAB_CARPORT_ENTRANCE_GUARD_COLLECT_DEVICE_INFO
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	ID,
+        	CONTROL_HOST_ID,
+        	ENTRANCE_GUARD_ID,
+        	COLLECT_DEVICE_ID,
+        	COLLECT_DEVICE_NAME,
+        	TYPE,
+        	DIRECT,
+        	DEVICE_SN,
+        	IPADDRESS,
+        	PORT,
+        	BAUD_RATE,
+        	MAC,
+        	EXT_PROPERTY,
+        	FIRMWARE_VERSION,
+        	STATE,
+        	REMARK,
+        	CREATE_TIME,
+		</trim>
+		values
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	#{id},
+        	#{controlHostId},
+        	#{entranceGuardId},
+        	#{collectDeviceId},
+        	#{collectDeviceName},
+        	#{type},
+        	#{direct},
+        	#{deviceSn},
+        	#{ipaddress},
+        	#{port},
+        	#{baudRate},
+        	#{mac},
+        	#{extProperty},
+        	#{firmwareVersion},
+        	#{state},
+        	#{remark},
+        	#{createTime},
+		</trim>
+	</insert> 
+	
+	<update id="edit" parameterType="com.entity.TabCarportEntranceGuardCollectDeviceInfo">
+		update TAB_CARPORT_ENTRANCE_GUARD_COLLECT_DEVICE_INFO
+		<trim prefix="set" suffixOverrides=",">
+        	<if test="id !=null and id != ''">ID = #{id},</if>
+        	<if test="controlHostId !=null and controlHostId != ''">CONTROL_HOST_ID = #{controlHostId},</if>
+        	<if test="entranceGuardId !=null and entranceGuardId != ''">ENTRANCE_GUARD_ID = #{entranceGuardId},</if>
+        	<if test="collectDeviceId !=null and collectDeviceId != ''">COLLECT_DEVICE_ID = #{collectDeviceId},</if>
+        	<if test="collectDeviceName !=null and collectDeviceName != ''">COLLECT_DEVICE_NAME = #{collectDeviceName},</if>
+        	<if test="type !=null and type != ''">TYPE = #{type},</if>
+        	<if test="direct !=null and direct != ''">DIRECT = #{direct},</if>
+        	<if test="deviceSn !=null and deviceSn != ''">DEVICE_SN = #{deviceSn},</if>
+        	<if test="ipaddress !=null and ipaddress != ''">IPADDRESS = #{ipaddress},</if>
+        	<if test="port !=null and port != ''">PORT = #{port},</if>
+        	<if test="baudRate !=null and baudRate != ''">BAUD_RATE = #{baudRate},</if>
+        	<if test="mac !=null and mac != ''">MAC = #{mac},</if>
+        	<if test="extProperty !=null and extProperty != ''">EXT_PROPERTY = #{extProperty},</if>
+        	<if test="firmwareVersion !=null and firmwareVersion != ''">FIRMWARE_VERSION = #{firmwareVersion},</if>
+        	<if test="state !=null and state != ''">STATE = #{state},</if>
+        	<if test="remark !=null and remark != ''">REMARK = #{remark},</if>
+        	<if test="createTime !=null and createTime != ''">CREATE_TIME = #{createTime},</if>
+		</trim>
+		where
+			ID = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.sqlserver.TabCarportInfoMapper">
+	<resultMap type="com.entity.TabCarportInfo" id="TabCarportInfoResult">
+       	<result column="ID" property="id"/>
+       	<result column="CARPORT_ID" property="carportId"/>
+       	<result column="CARPORT_NAME" property="carportName"/>
+       	<result column="CARPORT_LOCATION" property="carportLocation"/>
+       	<result column="GPS_LNG" property="gpsLng"/>
+       	<result column="GPS_LAT" property="gpsLat"/>
+       	<result column="CELL_ID" property="cellId"/>
+       	<result column="CONTACTS" property="contacts"/>
+       	<result column="MOBILE" property="mobile"/>
+       	<result column="EMAIL" property="email"/>
+       	<result column="STATE" property="state"/>
+       	<result column="THUMBNAIL_URL" property="thumbnailUrl"/>
+       	<result column="RATE_INFO" property="rateInfo"/>
+       	<result column="REMARK" property="remark"/>
+       	<result column="CREATE_TIME" property="createTime"/>
+       	<result column="CROSSING_NUM" property="crossingNum"/>
+       	<result column="MONITOR_NUM" property="monitorNum"/>
+       	<result column="SMOKE_NUM" property="smokeNum"/>
+       	<result column="TURNOVER" property="turnover"/>
+       	<result column="PLACE_NUM" property="placeNum"/>
+       	<result column="AUTH_TYPE" property="authType"/>
+       	<result column="UPDATE_TIME" property="updateTime"/>
+       	<result column="CREATE_USER" property="createUser"/>
+       	<result column="UPDATE_USER" property="updateUser"/>
+		
+	</resultMap>
+	
+	<select id="getById" resultMap="TabCarportInfoResult">
+		select 
+			*
+		from
+			TAB_CARPORT_INFO
+		where
+			ID = #{id}
+	</select>
+	
+	<sql id="whereConditions">
+	    <if test='queryMap.q_id != null and queryMap.q_id != ""'>and ID = #{queryMap.q_id}</if>
+	    <if test='queryMap.q_carportId != null and queryMap.q_carportId != ""'>and CARPORT_ID = #{queryMap.q_carportId}</if>
+	    <if test='queryMap.q_carportName != null and queryMap.q_carportName != ""'>and CARPORT_NAME = #{queryMap.q_carportName}</if>
+	    <if test='queryMap.q_carportLocation != null and queryMap.q_carportLocation != ""'>and CARPORT_LOCATION = #{queryMap.q_carportLocation}</if>
+	    <if test='queryMap.q_gpsLng != null and queryMap.q_gpsLng != ""'>and GPS_LNG = #{queryMap.q_gpsLng}</if>
+	    <if test='queryMap.q_gpsLat != null and queryMap.q_gpsLat != ""'>and GPS_LAT = #{queryMap.q_gpsLat}</if>
+	    <if test='queryMap.q_cellId != null and queryMap.q_cellId != ""'>and CELL_ID = #{queryMap.q_cellId}</if>
+	    <if test='queryMap.q_contacts != null and queryMap.q_contacts != ""'>and CONTACTS = #{queryMap.q_contacts}</if>
+	    <if test='queryMap.q_mobile != null and queryMap.q_mobile != ""'>and MOBILE = #{queryMap.q_mobile}</if>
+	    <if test='queryMap.q_email != null and queryMap.q_email != ""'>and EMAIL = #{queryMap.q_email}</if>
+	    <if test='queryMap.q_state != null and queryMap.q_state != ""'>and STATE = #{queryMap.q_state}</if>
+	    <if test='queryMap.q_thumbnailUrl != null and queryMap.q_thumbnailUrl != ""'>and THUMBNAIL_URL = #{queryMap.q_thumbnailUrl}</if>
+	    <if test='queryMap.q_rateInfo != null and queryMap.q_rateInfo != ""'>and RATE_INFO = #{queryMap.q_rateInfo}</if>
+	    <if test='queryMap.q_remark != null and queryMap.q_remark != ""'>and REMARK = #{queryMap.q_remark}</if>
+	    <if test='queryMap.q_createTime != null and queryMap.q_createTime != ""'>and CREATE_TIME = #{queryMap.q_createTime}</if>
+	    <if test='queryMap.q_crossingNum != null and queryMap.q_crossingNum != ""'>and CROSSING_NUM = #{queryMap.q_crossingNum}</if>
+	    <if test='queryMap.q_monitorNum != null and queryMap.q_monitorNum != ""'>and MONITOR_NUM = #{queryMap.q_monitorNum}</if>
+	    <if test='queryMap.q_smokeNum != null and queryMap.q_smokeNum != ""'>and SMOKE_NUM = #{queryMap.q_smokeNum}</if>
+	    <if test='queryMap.q_turnover != null and queryMap.q_turnover != ""'>and TURNOVER = #{queryMap.q_turnover}</if>
+	    <if test='queryMap.q_placeNum != null and queryMap.q_placeNum != ""'>and PLACE_NUM = #{queryMap.q_placeNum}</if>
+	    <if test='queryMap.q_authType != null and queryMap.q_authType != ""'>and AUTH_TYPE = #{queryMap.q_authType}</if>
+	    <if test='queryMap.q_updateTime != null and queryMap.q_updateTime != ""'>and UPDATE_TIME = #{queryMap.q_updateTime}</if>
+	    <if test='queryMap.q_createUser != null and queryMap.q_createUser != ""'>and CREATE_USER = #{queryMap.q_createUser}</if>
+	    <if test='queryMap.q_updateUser != null and queryMap.q_updateUser != ""'>and UPDATE_USER = #{queryMap.q_updateUser}</if>
+	</sql>
+	
+	<select id="queryMap" resultMap="TabCarportInfoResult">
+		SELECT 
+			* 
+		FROM (
+			SELECT 
+				ROW_NUMBER() OVER (order by T.id) AS Row,
+				T.*  
+			from 
+				TAB_CARPORT_INFO T
+			where
+				1=1
+			<include refid="whereConditions" />
+		) TT 
+		WHERE 
+			TT.Row between #{start} and #{end}
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			TAB_CARPORT_INFO
+		where
+		1=1
+		<include refid="whereConditions" />
+	</select>
+	
+	<insert id="add" parameterType="com.entity.TabCarportInfo" keyProperty="id" keyColumn="ID" useGeneratedKeys="true">
+		insert into TAB_CARPORT_INFO
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	ID,
+        	CARPORT_ID,
+        	CARPORT_NAME,
+        	CARPORT_LOCATION,
+        	GPS_LNG,
+        	GPS_LAT,
+        	CELL_ID,
+        	CONTACTS,
+        	MOBILE,
+        	EMAIL,
+        	STATE,
+        	THUMBNAIL_URL,
+        	RATE_INFO,
+        	REMARK,
+        	CREATE_TIME,
+        	CROSSING_NUM,
+        	MONITOR_NUM,
+        	SMOKE_NUM,
+        	TURNOVER,
+        	PLACE_NUM,
+        	AUTH_TYPE,
+        	UPDATE_TIME,
+        	CREATE_USER,
+        	UPDATE_USER,
+		</trim>
+		values
+		<trim prefix="(" suffixOverrides="," suffix = ")">
+        	#{id},
+        	#{carportId},
+        	#{carportName},
+        	#{carportLocation},
+        	#{gpsLng},
+        	#{gpsLat},
+        	#{cellId},
+        	#{contacts},
+        	#{mobile},
+        	#{email},
+        	#{state},
+        	#{thumbnailUrl},
+        	#{rateInfo},
+        	#{remark},
+        	#{createTime},
+        	#{crossingNum},
+        	#{monitorNum},
+        	#{smokeNum},
+        	#{turnover},
+        	#{placeNum},
+        	#{authType},
+        	#{updateTime},
+        	#{createUser},
+        	#{updateUser},
+		</trim>
+	</insert> 
+	
+	<update id="edit" parameterType="com.entity.TabCarportInfo">
+		update TAB_CARPORT_INFO
+		<trim prefix="set" suffixOverrides=",">
+        	<if test="id !=null and id != ''">ID = #{id},</if>
+        	<if test="carportId !=null and carportId != ''">CARPORT_ID = #{carportId},</if>
+        	<if test="carportName !=null and carportName != ''">CARPORT_NAME = #{carportName},</if>
+        	<if test="carportLocation !=null and carportLocation != ''">CARPORT_LOCATION = #{carportLocation},</if>
+        	<if test="gpsLng !=null and gpsLng != ''">GPS_LNG = #{gpsLng},</if>
+        	<if test="gpsLat !=null and gpsLat != ''">GPS_LAT = #{gpsLat},</if>
+        	<if test="cellId !=null and cellId != ''">CELL_ID = #{cellId},</if>
+        	<if test="contacts !=null and contacts != ''">CONTACTS = #{contacts},</if>
+        	<if test="mobile !=null and mobile != ''">MOBILE = #{mobile},</if>
+        	<if test="email !=null and email != ''">EMAIL = #{email},</if>
+        	<if test="state !=null and state != ''">STATE = #{state},</if>
+        	<if test="thumbnailUrl !=null and thumbnailUrl != ''">THUMBNAIL_URL = #{thumbnailUrl},</if>
+        	<if test="rateInfo !=null and rateInfo != ''">RATE_INFO = #{rateInfo},</if>
+        	<if test="remark !=null and remark != ''">REMARK = #{remark},</if>
+        	<if test="createTime !=null and createTime != ''">CREATE_TIME = #{createTime},</if>
+        	<if test="crossingNum !=null and crossingNum != ''">CROSSING_NUM = #{crossingNum},</if>
+        	<if test="monitorNum !=null and monitorNum != ''">MONITOR_NUM = #{monitorNum},</if>
+        	<if test="smokeNum !=null and smokeNum != ''">SMOKE_NUM = #{smokeNum},</if>
+        	<if test="turnover !=null and turnover != ''">TURNOVER = #{turnover},</if>
+        	<if test="placeNum !=null and placeNum != ''">PLACE_NUM = #{placeNum},</if>
+        	<if test="authType !=null and authType != ''">AUTH_TYPE = #{authType},</if>
+        	<if test="updateTime !=null and updateTime != ''">UPDATE_TIME = #{updateTime},</if>
+        	<if test="createUser !=null and createUser != ''">CREATE_USER = #{createUser},</if>
+        	<if test="updateUser !=null and updateUser != ''">UPDATE_USER = #{updateUser},</if>
+		</trim>
+		where
+			ID = #{id}
+	</update>
+</mapper>
